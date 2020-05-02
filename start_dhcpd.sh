@@ -1,3 +1,7 @@
+# A shell script to start a DHCP server
+# Checks if some dhcp server is already running
+# Prompts user to kill dhcp server if error on start
+
 echo "Checking for Leases file at /var/lib/dhcp/dhcpd.leases"
 ls /var/lib/dhcp/dhcpd.leases
 if [ $? -eq "0" ]
