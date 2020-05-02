@@ -1,2 +1,1 @@
-# mimiq
-Source Code for the MIMIQ Project
+# Source Code for the MIMIQ Project
