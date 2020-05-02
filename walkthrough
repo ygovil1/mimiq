@@ -1,4 +1,7 @@
 Setup at start:
+0. Download Chromium source code
+    https://chromium.googlesource.com/chromium/src/+/master/docs/linux/build_instructions.md 
+
 1. Move code from the /chromium directory in this repo to the correct location in the chromium source code
     README file in /chromium will help you with this
 
