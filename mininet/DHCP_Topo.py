@@ -94,16 +94,18 @@ class dhcpTopo(Topo):
     def __init__(self, cpu=.1, max_queue_size=None, **params):
         '''
           +---------------+host
+          +------------+host2
+          +---------------+host3
         s1+----DHCP
+          +---------------+host4
+          +------------+host5
           +---------------+serv
         '''
         # Initialize topo
-        Topo.__init__(self, **params)
+        super(dhcpTopo, self).__init__()
         ###Thanks to Sean Donivan for the NAT code####
-        LinkConfig = {'delay': '1ms',
-                   'max_queue_size': max_queue_size }
-        LinkConfig2 = {'delay': '5ms',
-                   'max_queue_size': max_queue_size }
+        LinkConfig = {'delay': '12.5ms', 'bw': 1000 }
+        LinkConfig2 = {'delay': '12.5ms', 'bw': 1000 }
         #################################################
 
         #add Single Switch
@@ -111,25 +113,21 @@ class dhcpTopo(Topo):
 
         # add DHCP server with slightly longer delay
         dhcp = self.addHost('dhcp', ip='10.0.1.200/24')
-        self.addLink(s1, dhcp)
         
-        #add one hosts with no assigned IP and 1 with assigned
-        host = self.addHost('host', ip='10.0.1.4')
-        self.addLink(s1, host)
-        
+        #add hosts with assigned IP
+        host = self.addHost('host', ip = '10.0.1.4')
         host2 = self.addHost('host2', ip='10.0.1.5')
-        self.addLink(s1, host2)
-        
         host3 = self.addHost('host3', ip='10.0.1.6')
-        self.addLink(s1, host3)
-        
         host4 = self.addHost('host4', ip='10.0.1.7')
-        self.addLink(s1, host4)
-
         host5 = self.addHost('host5', ip='10.0.1.8')
-        self.addLink(s1, host5)
-        
         serv = self.addHost('serv', ip='10.0.1.3')
-        self.addLink(s1, serv)
+        
+        self.addLink(dhcp, s1, **LinkConfig)
+        self.addLink(s1, host, **LinkConfig)
+        self.addLink(s1, host2, **LinkConfig)
+        self.addLink(s1, host3, **LinkConfig)
+        self.addLink(s1, host4, **LinkConfig)
+        self.addLink(s1, host5, **LinkConfig)
+        self.addLink(s1, serv, **LinkConfig2)
 
 topos = { 'mytopo': ( lambda: dhcpTopo() ) }
